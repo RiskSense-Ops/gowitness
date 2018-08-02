@@ -8,10 +8,10 @@ import (
 	"time"
 
 	homedir "github.com/mitchellh/go-homedir"
-	chrm "github.com/sensepost/gowitness/chrome"
+	chrm "github.com/RiskSense-Ops/gowitness/chrome"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/sensepost/gowitness/storage"
+	"github.com/RiskSense-Ops/gowitness/storage"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -50,13 +50,15 @@ var (
 	randomPermutations bool
 
 	// generate command
-	reportFileName string
+	reportDir string
+	pageSize int
+	includeErrors bool
 
 	// execution time
 	startTime = time.Now()
 
 	// version
-	version = "1.0.7"
+	version = "2.0.0"
 )
 
 // RootCmd represents the base command when called without any subcommands

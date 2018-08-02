@@ -12,7 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/remeh/sizedwaitgroup" // <3
-	"github.com/sensepost/gowitness/utils"
+	"github.com/RiskSense-Ops/gowitness/utils"
 	"github.com/spf13/cobra"
 )
 

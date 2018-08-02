@@ -9,6 +9,7 @@ type HTTResponse struct {
 	ResponseCodeString string         `json:"response_code_string"`
 	Headers            []HTTPHeader   `json:"headers"`
 	SSL                SSLCertificate `json:"ssl_certificate"`
+        PageTitle          string         `json:"page_title"`
 }
 
 // HTTPHeader contains an HTTP header key value pair

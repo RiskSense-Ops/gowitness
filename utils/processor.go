@@ -4,14 +4,15 @@ import (
 	"crypto/tls"
 	"net/url"
 	"path/filepath"
+        "regexp"
 	"strings"
 	"time"
 
-	chrm "github.com/sensepost/gowitness/chrome"
+	chrm "github.com/RiskSense-Ops/gowitness/chrome"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/parnurzeal/gorequest"
-	"github.com/sensepost/gowitness/storage"
+	"github.com/RiskSense-Ops/gowitness/storage"
 )
 
 const (
@@ -34,12 +35,21 @@ func ProcessURL(url *url.URL, chrome *chrm.Chrome, db *storage.Storage, timeout 
 		TLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
 		Set("User-Agent", chrome.UserAgent)
 
-	resp, _, errs := request.Get(url.String()).End()
+	resp, body, errs := request.Get(url.String()).End()
 	if errs != nil {
 		log.WithFields(log.Fields{"url": url, "error": errs}).Error("Failed to query url")
 
 		return
 	}
+
+        // extract page title
+        re := regexp.MustCompile(`(?i)<title>\s*(.*?)\s*</title>`)
+        var match = re.FindStringSubmatch(body)
+        HTTPResponseStorage.PageTitle = ""
+        if len(match) >= 2 {
+                HTTPResponseStorage.PageTitle = match[1]
+                log.WithField("title", match[1]).Info("Page Title")
+        }
 
 	// update the response code
 	HTTPResponseStorage.ResponseCode = resp.StatusCode
